@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+    postgres:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        container_name: vigilancia
+        restart: always
+        environment: 
+            POSTGRES_USER: "ESOSWEYES"
+            POSTGRES_PASSWORD: "ESOSWEYES"
+            POSTGRES_DB: "vigilancia"
+            PGDATA: /media/elfer/Tera/repos/Postgres_container/container_info
+        ports:
+            - 5432:5432
+        volumes: 
+            - pgdata:/var/lib/postgresql/data
+        networks: 
+            postgres_network:
+                aliases:
+                    - postgres_host
+volumes:
+    pgdata: {}
+networks: 
+    postgres_network:
+        name: postgres_net
+        driver: bridge
