@@ -1,1 +1,4 @@
 container_info
+.vscode
+app/__pycache__
+__pycache__
