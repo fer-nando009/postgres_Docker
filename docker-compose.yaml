@@ -1,16 +1,34 @@
 version: "3.8"
 services:
-    postgres:
-        build: 
+    flask:
+        build:
             context: .
             dockerfile: Dockerfile
-        container_name: vigilancia
+        container_name: Flask
         restart: always
+        ports: 
+            - "${HTTP_PORT:-4000}:4000"
+        volumes:
+            - .:/app
+        environment: 
+            FLASK_ENV: development
+        depends_on: 
+            - postgres
+        links:
+            - postgres:postgres
+        networks: 
+            postgres_network:
+                aliases:
+                    - postgres_host
+    postgres:
+        image: postgres:12.7-alpine
+        restart: always
+        container_name: postgres
         environment: 
             POSTGRES_USER: "ESOSWEYES"
             POSTGRES_PASSWORD: "ESOSWEYES"
             POSTGRES_DB: "vigilancia"
-            PGDATA: /media/elfer/Tera/repos/Postgres_container/container_info
+            PGDATA: /media/elfer/Tera/repos/Flask-Postgres/container_info
         ports:
             - 5432:5432
         volumes: 
